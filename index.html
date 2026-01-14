@@ -217,6 +217,158 @@
             z-index: 55; 
         }
 
+        /* Photo Heart Effect - Floating randomly */
+        .photo-floating {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 8px;
+            object-fit: cover;
+            pointer-events: auto;
+            z-index: 30;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-floating.enlarged {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) scale(3.5) !important;
+            z-index: 200;
+            border-width: 4px;
+        }
+
+        /* Photo Carousel */
+        .carousel-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            height: 500px;
+            margin: 20px auto;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .flip-card {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: white;
+            padding: 15px;
+        }
+
+        .card-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f5f5f5;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-back img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .carousel-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev { left: -25px; }
+        .carousel-nav.next { right: -25px; }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(244, 114, 182, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: #f472b6;
+            width: 30px;
+            border-radius: 5px;
+        }
+
         /* Flip Card Styling - Responsive Size */
         .flip-container {
             perspective: 1000px;
@@ -374,37 +526,24 @@
         </div>
     </div>
 
-    <!-- Scene 3: Final Photo (Reverted to Pink Gradient) -->
-    <!-- เพิ่ม overflow-y-auto ป้องกันล้นจอ -->
+    <!-- Scene 3: Final Photo Carousel -->
     <div id="screen-final" class="screen bg-gradient-to-b from-pink-100 to-pink-200 overflow-y-auto">
-        <div class="flex flex-col items-center justify-center min-h-screen py-10">
-            <!-- Flip Card Container (Responsive size via CSS) -->
-            <div class="flip-container" onclick="this.classList.toggle('flipped')">
-                <div class="flip-inner">
-                    <!-- Front Side -->
-                    <div class="photo-front">
-                        <div class="tape"></div>
-                        <img src="Screenshot From 2026-01-14 13-54-11.png" alt="Birds of a Feather" class="photo-img">
-                        <div class="absolute bottom-3 w-full text-center text-gray-600 font-bold text-lg pr-6" style="font-family: 'Mali', cursive;">
-                            Us (Tap to flip)
-                        </div>
-                    </div>
-                    <!-- Back Side -->
-                    <div class="photo-back">
-                        <div class="tape"></div>
-                        <div class="text-pink-500 font-bold mb-2">Scan Me ❤️</div>
-                        <!-- ใส่รูป QR Code ตรงนี้ -->
-                        <img src="bing_generated_qrcode (1).png" alt="QR Code" class="w-32 h-32 border-2 border-pink-200 rounded-lg">
-                        <div class="text-gray-400 text-xs mt-2">Another Song</div>
-                        <a href="https://youtu.be/5AQZ5U17J5M?si=mcKbaP37X3CuXdYC" target="_blank" class="mt-3 bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition inline-block">
-                            🎵 Listen Now
-                        </a>
-                    </div>
+        <div class="flex flex-col items-center justify-start min-h-screen py-10 px-4">
+            
+            <h2 class="text-2xl font-bold text-pink-600 mb-6" style="font-family: 'Mali', cursive;">Our Memories 💕</h2>
+            
+            <!-- Carousel Container -->
+            <div class="carousel-container">
+                <div id="carousel-slides">
+                    <!-- Slides will be added dynamically -->
                 </div>
+                <button class="carousel-nav prev" onclick="prevSlide()">‹</button>
+                <button class="carousel-nav next" onclick="nextSlide()">›</button>
+                <div class="carousel-indicators" id="carousel-indicators"></div>
             </div>
 
-            <!-- Floating Text (Smaller Size) -->
-            <div class="mt-8 text-center px-4 floating-text">
+            <!-- Floating Text -->
+            <div class="mt-16 text-center px-4 floating-text">
                 <p class="text-pink-600 text-base italic opacity-80 mb-1 font-light">"Birds of a Feather"</p>
                 <h1 class="text-lg md:text-xl text-pink-700 font-light leading-relaxed tracking-wide" style="font-family: 'Mali', cursive;">
                     "From the first day I heard it,<br>and every time I reminisce."
@@ -412,7 +551,7 @@
             </div>
 
             <!-- Music Control Button -->
-            <div class="mt-6 flex gap-3">
+            <div class="mt-6 flex gap-3 mb-10">
                 <button id="pause-music-btn" onclick="toggleMusic()" class="bg-pink-500 text-white px-6 py-2 rounded-full text-sm shadow-lg hover:bg-pink-600 transition transform hover:scale-105">
                     ⏸️ Pause Music
                 </button>
@@ -816,7 +955,7 @@
             }
         }
 
-        // --- Stage 5: Final Scene (UPDATED) ---
+        // --- Stage 5: Final Scene with Gallery ---
         function nextScene() {
             // Play MP3 file
             audioPlayer.volume = 1.0;
@@ -826,6 +965,102 @@
 
             document.getElementById('screen-cake').classList.remove('active');
             document.getElementById('screen-final').classList.add('active');
+            
+            // Initialize gallery
+            initGallery();
+        }
+
+        // --- Photo Carousel Gallery ---
+        const carouselPhotos = [
+            'Screenshot From 2026-01-14 13-54-11.png',
+            '087721cc-0318-4cd1-9f0b-6e378a7cc9ce.jpeg',
+            '25283dcf-082b-4a37-8d9f-29f9cdc0a1dc.jpeg',
+            '371df54d-2b38-4c9c-9ecc-1777d586f722.jpeg',
+            '46ac7b38-70c1-4be8-872a-b07873cc9af9.jpeg',
+            '626ec92b-53ed-4798-a70e-be8dbeb43b02.jpeg',
+            '8c699ec6-e6d8-4188-8676-6e9b457a2878.jpeg',
+            'b30aeacc-908e-4ee6-9b81-d253ca2c2e45.jpeg',
+            'cccf46ba-6464-4d2c-892f-56008316b0f3.jpeg',
+            'ce581ef7-8a72-43c4-a7bf-b717c1a47151.jpeg',
+            'd0ac3961-e317-407f-aa0a-2eaff7aa2c7c.jpeg',
+            'f54ffc8b-afa3-4738-ab38-7edefd568116.jpeg',
+            'f867c565-33d4-4aad-820d-c45f57e30c37.jpeg',
+            'f8d3011e-94cc-4e0f-a053-406c2e47a76d.jpeg',
+            'Screenshot_14-1-2026_142543_www.instagram.com.jpeg'
+        ];
+
+        let currentSlideIndex = 0;
+
+        function initGallery() {
+            const slidesContainer = document.getElementById('carousel-slides');
+            const indicatorsContainer = document.getElementById('carousel-indicators');
+            
+            slidesContainer.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
+            
+            carouselPhotos.forEach((photo, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+                
+                const flipCard = document.createElement('div');
+                flipCard.className = 'flip-card';
+                flipCard.innerHTML = `
+                    <div class="flip-card-inner">
+                        <div class="card-face">
+                            <img src="${photo}" alt="Memory ${index + 1}">
+                        </div>
+                        <div class="card-face card-back">
+                            <p class="text-pink-500 font-bold text-lg mb-4">Scan for Another Song 🎵</p>
+                            <img src="bing_generated_qrcode (1).png" alt="QR Code">
+                            <a href="https://youtu.be/5AQZ5U17J5M" target="_blank" class="mt-4 bg-pink-500 text-white px-5 py-2 rounded-full text-sm hover:bg-pink-600 transition inline-block shadow-lg">
+                                🎵 Listen Now
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                // Click card to flip (not navigation buttons)
+                flipCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.carousel-nav')) {
+                        flipCard.classList.toggle('flipped');
+                    }
+                });
+                
+                slide.appendChild(flipCard);
+                slidesContainer.appendChild(slide);
+                
+                // Create indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator' + (index === 0 ? ' active' : '');
+                indicator.onclick = () => goToSlide(index);
+                indicatorsContainer.appendChild(indicator);
+            });
+        }
+
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            slides[currentSlideIndex].classList.remove('active');
+            indicators[currentSlideIndex].classList.remove('active');
+            
+            currentSlideIndex = index;
+            
+            slides[currentSlideIndex].classList.add('active');
+            indicators[currentSlideIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            let newIndex = currentSlideIndex + 1;
+            if (newIndex >= carouselPhotos.length) newIndex = 0;
+            goToSlide(newIndex);
+        }
+
+        function prevSlide() {
+            let newIndex = currentSlideIndex - 1;
+            if (newIndex < 0) newIndex = carouselPhotos.length - 1;
+            goToSlide(newIndex);
         }
 
         // --- Music Control ---
